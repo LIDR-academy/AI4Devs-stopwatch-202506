@@ -1,0 +1,7 @@
+Se utilizo gemini para realizar el ejercicio.
+
+1. actua como un experto en desarrollo de software, necesito que realices una aplicación en html la cual tenga la siguiente funcionalidad: primero que tenga un titulo que diga "Timer and Countdown", luego la aplicación debe tener la funcionalidad de un cronometro y un temporizador el usuario puede escoger que tipo de funcionalidad necesita seleccionando un switch que por default este en cronometro, en un label se deben mostrar las horas, minutos y segundos y debajo del lado deben haber 2 botones, el primer botón debe ser de color verde con titulo "start" al darle clic debe iniciar el conteo del cronometro luego de iniciar debe cambiar su titulo a "stop" y volverse color amarillo , el siguiente botón debe ser rojo y debe tener de titulo "limpiar" al darle clic debe resetear los valores del cronometro, me debes brindar el codigo en HTML
+
+2. sigue actuando como experto en desarrollo de software, puedes incluir a los valores del cronometro los milisegundos
+
+3. sigue actuando como experto en desarrollo de software, ahora implementa la funcionalidad del temporizador, si el usuario selecciona esta opción el usuario debe de ser capaz de seleccionar el valor inicial ya sea en horas, minutos o segundos y cuando presione el botón start debe iniciar un conteo regresivo, manteniendo la funcionalidad del cronometro.
