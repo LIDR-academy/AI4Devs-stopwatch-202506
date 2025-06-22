@@ -87,11 +87,16 @@ function stop() {
 
 function clear() {
   stop();
-  elapsed = 0;
-  countdownTime = 0;
-  countdownLeft = 0;
-  updateDisplay(0);
-  msDisplay.classList.remove('text-red-600');
+  if (mode === 'stopwatch') {
+    elapsed = 0;
+    updateDisplay(0);
+    msDisplay.classList.remove('text-red-600');
+  } else {
+    countdownTime = 0;
+    countdownLeft = 0;
+    updateDisplay(0);
+    msDisplay.classList.remove('text-red-600');
+  }
 }
 
 // Toggle mode
@@ -114,14 +119,14 @@ clearBtn.addEventListener('click', clear);
 // Quick selectors for countdown
 quickSelectors.addEventListener('click', (e) => {
   if (e.target.tagName !== 'BUTTON') return;
+  if (e.target.dataset.hours) {
+    countdownTime += parseInt(e.target.dataset.hours) * 60 * 60 * 1000;
+  }
   if (e.target.dataset.minutes) {
     countdownTime += parseInt(e.target.dataset.minutes) * 60 * 1000;
   }
   if (e.target.dataset.seconds) {
     countdownTime += parseInt(e.target.dataset.seconds) * 1000;
-  }
-  if (e.target.dataset.reset) {
-    countdownTime = 0;
   }
   countdownLeft = countdownTime;
   updateDisplay(countdownTime);
