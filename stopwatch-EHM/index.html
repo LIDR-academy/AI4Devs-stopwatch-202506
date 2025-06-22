@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Timer and Countdown</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #startStop {
+      color: white;
+    }
+    #backWarning {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 1rem;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 10px;
+      justify-content: center;
+      margin: 1rem auto;
+    }
+    .keypad button {
+      width: 80px;
+      height: 50px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="home">
+    <h1>Timer and Countdown</h1>
+    <button onclick="showStopwatch()">Cronómetro</button>
+    <button onclick="showCountdown()">Cuenta atrás</button>
+  </div>
+
+  <div id="stopwatch" class="hidden">
+    <h2 id="stopwatchDisplay">00:00:00.000</h2>
+    <button id="startStopSW" onclick="toggleStopwatch()">Start</button>
+    <button id="resetSW" onclick="resetStopwatch()" disabled>Reset</button><br/>
+    <button onclick="backToHomeFromStopwatch()">Back</button>
+  </div>
+
+  <div id="countdown" class="hidden">
+    <h2 id="countdownDisplay">00:00:00</h2>
+    <div class="keypad" id="keypad">
+      <button onclick="enterDigit(1)">1</button>
+      <button onclick="enterDigit(2)">2</button>
+      <button onclick="enterDigit(3)">3</button>
+      <button onclick="enterDigit(4)">4</button>
+      <button onclick="enterDigit(5)">5</button>
+      <button onclick="enterDigit(6)">6</button>
+      <button onclick="enterDigit(7)">7</button>
+      <button onclick="enterDigit(8)">8</button>
+      <button onclick="enterDigit(9)">9</button>
+      <div></div>
+      <button onclick="enterDigit(0)">0</button>
+    </div>
+    <button id="startStopCD" onclick="toggleCountdown()" disabled>Start</button>
+    <button id="resetCD" onclick="resetCountdown()" disabled>Reset</button><br/>
+    <button onclick="backToHomeFromCountdown()">Back</button>
+    <div id="backWarning">La cuenta atrás sólo se podrá inciar si se selecciona algún tiempo superior a 00:00:00</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
