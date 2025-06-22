@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elegant Timer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background: #111;
+      color: #f0dba5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    header img {
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 100px 20px 40px;
+      box-sizing: border-box;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .time-display {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      position: absolute;
+      top: 20%;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 160px;
+    }
+
+    button {
+      background: #f0dba5;
+      color: #111;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e4c56f;
+    }
+
+    .laps {
+      margin-top: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 1.2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .summary {
+      margin-top: 20px;
+      font-size: 1rem;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .summary table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    .summary td, .summary th {
+      padding: 8px;
+      border-bottom: 1px solid #444;
+    }
+
+    .blinking {
+      animation: blink 1s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { background-color: transparent; }
+      to { background-color: rgba(255, 0, 0, 0.2); }
+    }
+
+    .countdown-inputs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .countdown-inputs input {
+      padding: 10px;
+      font-size: 1rem;
+      width: 80px;
+      text-align: center;
+    }
+
+    .progress {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    .how-to {
+      margin-top: 30px;
+      font-size: 0.95rem;
+      opacity: 0.8;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .error-message {
+      color: #ff6666;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="https://lidr.co" target="_blank"><img src="logo.png" alt="Academy Logo"></a>
+  </header>
+
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen active">
+    <h1>Elegant Timer</h1>
+    <div class="button-group">
+      <button onclick="showScreen('stopwatch')">Stopwatch</button>
+      <button onclick="showScreen('countdown')">Countdown</button>
+    </div>
+    <div class="how-to">
+      Welcome! Choose a mode. Stopwatch tracks laps and stats. Countdown lets you set a timer by hours/minutes/seconds and notifies when time is up.
+    </div>
+  </div>
+
+  <!-- Stopwatch Screen -->
+  <div id="stopwatch-screen" class="screen">
+    <div class="time-display" id="stopwatch-display">00:00.00</div>
+    <div class="button-group">
+      <button id="stopwatch-start-btn" onclick="toggleStopwatch()">Start</button>
+      <button onclick="recordLap()">Lap</button>
+      <button onclick="resetStopwatch()">Clear</button>
+      <button onclick="showScreen('home')">Back</button>
+    </div>
+    <div class="laps" id="laps"></div>
+    <div class="summary" id="summary"></div>
+    <div class="how-to">
+      Click Start to begin the stopwatch. Lap will record the current time. Clear resets all. Latest lap appears at the top. Summary shows lap stats.
+    </div>
+  </div>
+
+  <!-- Countdown Screen -->
+  <div id="countdown-screen" class="screen">
+    <div class="time-display" id="countdown-display">00:00:00</div>
+    <div class="countdown-inputs">
+      <input id="input-hours" type="number" min="0" placeholder="Hours">
+      <input id="input-minutes" type="number" min="0" max="59" placeholder="Minutes">
+      <input id="input-seconds" type="number" min="0" max="59" placeholder="Seconds">
+    </div>
+    <div id="countdown-error" class="error-message"></div>
+    <div class="button-group">
+      <button id="countdown-start-btn" onclick="toggleCountdown()">Start</button>
+      <button onclick="resetCountdown()">Clear</button>
+      <button onclick="showScreen('home')">Back</button>
+    </div>
+    <div class="progress" id="countdown-progress"></div>
+    <div class="how-to">
+      Set your desired countdown time and press Start. When it finishes, you'll hear a chime and see a visual indicator. You can stop/reset anytime.
+    </div>
+  </div>
+
+  <audio id="alarm-sound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
