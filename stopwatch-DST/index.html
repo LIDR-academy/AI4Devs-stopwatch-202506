@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizadores Pro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --primary-text-color: #e0e0e0;
+            --secondary-text-color: #888;
+            --green-accent: #28a745;
+            --red-accent: #dc3545;
+            --blue-accent: #007bff;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        /* NUEVO: Pseudo-elemento para el icono del reloj de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            height: 150px;
+            /* SVG de reloj como Data URI, con color de relleno #e0e0e0 */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e0e0e0'%3E%3Cpath d='M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z'/%3E%3Cpath d='M13 7h-2v6h6v-2h-4V7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0.08; /* Semitransparente */
+            z-index: 0; /* Detr_s del contenido */
+        }
+
+        .main-container {
+            min-height: 100vh;
+            position: relative; /* Necesario para que el z-index funcione */
+            z-index: 1; /* Delante del pseudo-elemento */
+        }
+
+        .screen {
+            display: none; /* Oculto por defecto, controlado por JS */
+        }
+        
+        .screen.active {
+            display: flex;
+        }
+
+        .choice-button {
+            border: 2px solid var(--secondary-text-color);
+            transition: all 0.3s ease;
+            width: 200px;
+            height: 200px;
+        }
+
+        .choice-button:hover {
+            border-color: var(--primary-text-color);
+            transform: scale(1.05);
+        }
+        
+        .choice-button i {
+            font-size: 4rem;
+        }
+
+        .timer-display {
+            /* El 50% del alto de la ventana se controla con JS, esto es un m_nimo */
+            font-size: 15vw; 
+            font-weight: 700;
+            letter-spacing: -2px;
+            text-align: center;
+        }
+        
+        .timer-display .milliseconds {
+            font-size: 5vw; /* Tama_o m_s peque_o para milisegundos */
+            color: var(--secondary-text-color);
+            vertical-align: super;
+        }
+        
+        .countdown-input-display {
+            font-size: 2.5rem;
+            padding: 10px 15px;
+            border: 2px solid var(--secondary-text-color);
+            border-radius: 0.375rem;
+            cursor: text;
+            background-color: #2a2a2a;
+        }
+        
+        .countdown-input-display:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center main-container">
+    
+        <div id="main-screen" class="screen active flex-column justify-content-center align-items-center w-100">
+            <h2 class="text-center mb-5 display-4">Stopwatch</h2>
+            
+            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center" style="gap: 50px;">
+                <button id="show-stopwatch-btn" class="btn btn-dark d-flex flex-column align-items-center justify-content-center choice-button">
+                    <i class="bi bi-arrow-up-circle-fill" style="color: var(--green-accent);"></i>
+                    <span class="mt-2">Cron&oacute;metro</span>
+                </button>
+                <button id="show-countdown-btn" class="btn btn-dark d-flex flex-column align-items-center justify-content-center choice-button">
+                    <i class="bi bi-arrow-down-circle-fill" style="color: var(--red-accent);"></i>
+                    <span class="mt-2">Cuenta Atr&aacute;s</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="stopwatch-screen" class="screen flex-column align-items-center justify-content-center w-100">
+            <h2 class="text-center mb-5">Cron&oacute;metro</h2>
+            <div id="stopwatch-display" class="timer-display">00:00:00<span class="milliseconds">.000</span></div>
+            <div class="mt-4">
+                <button id="stopwatch-start-pause" class="btn btn-lg btn-primary mx-2">Iniciar</button>
+                <button id="stopwatch-clear" class="btn btn-lg btn-secondary mx-2">Limpiar</button>
+            </div>
+            <button class="btn btn-link mt-5 back-to-main">Volver</button>
+        </div>
+        
+        <div id="countdown-screen" class="screen flex-column align-items-center justify-content-center w-100">
+            <h2 class="text-center mb-5">Cuenta Atr&aacute;s</h2>
+            <div class="mb-4 text-center">
+                <label for="countdown-input-display" class="form-label d-block mb-3">Establecer tiempo (HH:MM:SS)</label>
+                <div id="countdown-input-display" tabindex="0" class="countdown-input-display d-inline-block">00:00:00</div>
+                 <div id="countdown-error" class="text-danger mt-2" style="min-height: 1.5em;"></div>
+            </div>
+            <div id="countdown-display" class="timer-display d-none">00:00:00<span class="milliseconds">.000</span></div>
+            <div class="mt-4">
+                <button id="countdown-start-pause" class="btn btn-lg btn-primary mx-2" disabled>Iniciar</button>
+                <button id="countdown-stop" class="btn btn-lg btn-danger mx-2" disabled>Detener</button>
+                <button id="countdown-clear" class="btn btn-lg btn-secondary mx-2">Limpiar</button>
+            </div>
+            <button class="btn btn-link mt-5 back-to-main">Volver</button>
+        </div>
+
+    </div>
+    
+    <canvas id="confetti-canvas"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>
