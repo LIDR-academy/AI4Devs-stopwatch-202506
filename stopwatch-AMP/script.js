@@ -87,14 +87,11 @@ function stop() {
 
 function clear() {
   stop();
-  if (mode === 'stopwatch') {
-    elapsed = 0;
-    updateDisplay(0);
-  } else {
-    countdownLeft = countdownTime;
-    updateDisplay(countdownTime);
-    msDisplay.classList.remove('text-red-600');
-  }
+  elapsed = 0;
+  countdownTime = 0;
+  countdownLeft = 0;
+  updateDisplay(0);
+  msDisplay.classList.remove('text-red-600');
 }
 
 // Toggle mode
