@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Tiempo en tus Manos! ⏱️</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Color de fondo ligero */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif; /* Fuente más genérica */
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px; /* Espacio entre el contenedor principal y la descripción */
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        p.description {
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .display-box {
+            background-color: #e0e7ff; /* Azul claro similar al de la imagen */
+            border: 2px solid #343a40; /* Borde oscuro */
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            font-size: 4em; /* Tamaño de fuente grande para los números */
+            font-family: 'Courier New', monospace; /* Fuente monoespaciada para los dígitos */
+            font-weight: bold;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: baseline; /* Para alinear el texto base con el "000" */
+            position: relative; /* Para posicionar los milisegundos */
+            line-height: 1; /* Eliminar espacio extra de línea */
+        }
+        .milliseconds-small {
+            font-size: 0.3em; /* Tamaño de milisegundos más pequeño */
+            position: absolute;
+            bottom: 10px; /* Ajusta la posición vertical */
+            right: 20px; /* Ajusta la posición horizontal */
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Espacio entre botones */
+            margin-bottom: 30px;
+        }
+        .btn-custom-start {
+            background-color: #28a745; /* Verde similar al de la imagen */
+            border-color: #218838;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .btn-custom-start:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .btn-custom-clear {
+            background-color: #dc3545; /* Rojo similar al de la imagen */
+            border-color: #c82333;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .btn-custom-clear:hover {
+            background-color: #c82333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .section-title {
+            font-size: 1.8em;
+            color: #343a40;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .countdown-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .countdown-inputs input {
+            width: 80px;
+            text-align: center;
+            font-size: 1.2em;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        .alert-info, .alert-warning {
+            margin-top: 20px;
+        }
+        /* Estilos para el efecto de alerta sonora/visual */
+        .countdown-alert-active {
+            animation: pulse 1s infinite alternate;
+            background-color: #fff3cd; /* Amarillo suave */
+            border-color: #ffeeba;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.02); opacity: 0.9; }
+        }
+
+        /* Ocultar elementos en pantallas pequeñas para cronómetro y cuenta atrás */
+        @media (max-width: 576px) {
+            .display-box {
+                font-size: 2.5em;
+                padding: 15px 20px;
+            }
+            .milliseconds-small {
+                font-size: 0.2em;
+                bottom: 5px;
+                right: 10px;
+            }
+            .btn-custom-start, .btn-custom-clear {
+                padding: 10px 25px;
+                font-size: 1.2em;
+            }
+            .countdown-inputs input {
+                width: 60px;
+                font-size: 1em;
+                padding: 8px;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Tiempo en tus Manos! ⏱️</h1>
+        <p class="description">
+            Controla tus actividades con este versátil cronómetro y cuenta atrás.
+            Ideal para sesiones de estudio, entrenamientos o simplemente para medir el tiempo con precisión.
+        </p>
+
+        <h2 class="section-title">Cronómetro</h2>
+        <div class="display-box" id="stopwatchDisplay">
+            00:00:00<span class="milliseconds-small">000</span>
+        </div>
+        <div class="button-group">
+            <button id="stopwatchStartBtn" class="btn btn-custom-start">Start</button>
+            <button id="stopwatchStopBtn" class="btn btn-secondary">Stop</button>
+            <button id="stopwatchResetBtn" class="btn btn-custom-clear">Clear</button>
+        </div>
+
+        <h2 class="section-title">Cuenta Atrás</h2>
+        <div class="countdown-inputs">
+            Horas: <input type="number" id="countdownHours" class="form-control" placeholder="HH" min="0" value="0">
+            Minutos: <input type="number" id="countdownMinutes" class="form-control" placeholder="MM" min="0" max="59" value="0">
+            Segundos: <input type="number" id="countdownSeconds" class="form-control" placeholder="SS" min="0" max="59" value="0">
+        </div>
+        <div class="display-box" id="countdownDisplay">
+            00:00:00
+        </div>
+        <div class="button-group">
+            <button id="countdownStartBtn" class="btn btn-custom-start">Start</button>
+            <button id="countdownPauseBtn" class="btn btn-secondary">Pause</button>
+            <button id="countdownResetBtn" class="btn btn-custom-clear">Clear</button>
+        </div>
+        <div id="countdownAlert" class="alert alert-info d-none" role="alert">
+            ¡Tiempo terminado!
+        </div>
+        <div id="countdownInputWarning" class="alert alert-warning d-none" role="alert">
+            Por favor, ingresa al menos un valor mayor a cero para iniciar la cuenta atrás.
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1oHv7z5Q+zLc7s5" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
