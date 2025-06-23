@@ -1,0 +1,81 @@
+body {
+  background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  width: 90vw;
+  max-width: 1600px;
+  text-align: center;
+}
+.display {
+  background: #eaeaff;
+  border: 10px solid #333;
+  border-radius: 60px;
+  font-size: 12vw;
+  color: #111;
+  margin-bottom: 40px;
+  padding: 30px 0 10px 0;
+  position: relative;
+  box-sizing: border-box;
+}
+.display .ms {
+  font-size: 3vw;
+  position: absolute;
+  right: 60px;
+  bottom: 20px;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 30px;
+}
+.btn {
+  font-size: 3vw;
+  padding: 30px 80px;
+  border: 8px solid #333;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: filter 0.2s;
+}
+.start {
+  background: linear-gradient(180deg, #00ff00 0%, #00cc00 100%);
+  color: #111;
+}
+.clear {
+  background: linear-gradient(180deg, #ff0000 0%, #cc0000 100%);
+  color: #111;
+}
+.btn:active {
+  filter: brightness(0.9);
+}
+.mode-switch {
+  margin-top: 10px;
+}
+.mode {
+  font-size: 1.5vw;
+  padding: 10px 40px;
+  margin: 0 10px;
+  border: 3px solid #333;
+  border-radius: 20px;
+  background: #eee;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.mode.active, .mode:hover {
+  background: #cce6ff;
+}
+@media (max-width: 700px) {
+  .display { font-size: 8vw; }
+  .display .ms { font-size: 5vw; right: 20px; }
+  .btn { font-size: 6vw; padding: 20px 30px; }
+  .mode { font-size: 3vw; padding: 8px 20px; }
+} 
