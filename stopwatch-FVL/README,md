@@ -1,0 +1,76 @@
+/* --- README.md --- */
+# Cronómetro & Temporizador Web
+
+Aplicación React que ofrece un **cronómetro** y un **temporizador** con diseño responsive inspirado en [online-stopwatch.com](https://www.online-stopwatch.com/) y la maqueta `stopwatch.png`.
+
+## Características
+
+- ⏱️ Cronómetro con centésimas, control por teclado (espacio = iniciar/pausar, `r` = reiniciar)
+- ⏲️ Temporizador configurable (HH:MM:SS) con alarma sonora libre (`beep_short.ogg` de Google)
+- 📲 Responsive + modo pantalla completa (F11)
+- 🎨 Estilos con **Tailwind CSS**
+- 🧪 Tests unitarios (Vitest) y E2E (Cypress)
+- 🌐 Preparado para multi‑idioma (es, en)
+
+## Requisitos
+
+- Node.js ≥ 18
+- pnpm | npm | yarn (ejemplos con **npm**)
+
+## Instalación y uso local
+
+```bash
+npm install        # instala dependencias
+npm run dev        # levanta Vite en http://localhost:5173
+```
+
+### Scripts útiles
+
+| Comando           | Descripción |
+|-------------------|-------------|
+| `npm run dev`     | Dev server + HMR |
+| `npm run build`   | Genera build producción en `dist/` |
+| `npm run preview` | Sirve la build para verificación |
+| `npm test`        | Ejecuta Vitest |
+| `npm run cy:open` | Abre Cypress UI para pruebas e2e |
+
+## Estructura de carpetas
+
+```
+web-timer/
+├─ public/
+│  └─ sounds/beep_short.ogg
+├─ src/
+│  ├─ features/         # stopwatch, countdown
+│  ├─ shared/           # hooks, components
+│  ├─ styles.css        # tailwind directives
+│  ├─ App.jsx
+│  └─ main.jsx
+├─ tests/               # unit tests
+├─ cypress/             # e2e tests
+├─ index.html
+└─ ...config files
+```
+
+## Accesibilidad y atajos de teclado
+
+- Todos los botones son **focusables** y gestionan `Enter`/`Space`.
+- Atributos `aria-label` en displays de tiempo.
+- Atajos: `Space` (inicio/pausa), `r` (reset), editable para futuras mejoras.
+
+## Contribuir
+
+1. Haz fork y crea rama a partir de `main`.
+2. Sigue [Conventional Commits](https://www.conventionalcommits.org/) para el mensaje.
+3. Asegúrate de que `npm test` y `npm run lint` pasan.
+4. Abre un Pull Request describiendo la motivación 👌.
+
+## Roadmap
+
+- [ ] Guardar historial de laps y vueltas.
+- [ ] Loop Timer & Interval Timer (épicas futuras).
+- [ ] PWA + caché offline.
+
+---
+
+© 2025 – MIT License
