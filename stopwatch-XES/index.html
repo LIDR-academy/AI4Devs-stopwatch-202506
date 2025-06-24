@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online-Stopwatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .logo-icon::before {
+            content: '▲';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+        }
+
+        .logo-icon::after {
+            content: '▼';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e74c3c;
+            font-size: 16px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .premium-btn {
+            background: #FFA500;
+            color: white;
+        }
+
+        .search-btn, .lang-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .race-timers { background: #e74c3c; }
+        .classroom-timers { background: #4CAF50; }
+        .holiday-timers { background: #9b59b6; }
+        .random-name { background: #f39c12; }
+        .random-number { background: #95a5a6; }
+        .sensory-timers { background: #8e44ad; }
+        .clocks { background: #1abc9c; }
+        .exam-timers { background: #3498db; }
+        .chance-games { background: #27ae60; }
+        .group-generators { background: #e91e63; }
+        .presentation-timers { background: #ff9800; }
+        .tally-counters { background: #00bcd4; }
+
+        .hero-text {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .url-bar {
+            background: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .timer-section {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .timer-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .timer-icon {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 8px solid #333;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stopwatch-icon {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .countdown-icon {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .timer-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .stopwatch-icon::before {
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 40px solid white;
+            transform: translate(-50%, -60%);
+        }
+
+        .countdown-icon::before {
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 40px solid white;
+            transform: translate(-50%, -40%);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .stop-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .countdown-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .time-input {
+            width: 60px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .bottom-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .bottom-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .add-page-btn {
+            background: #4CAF50;
+        }
+
+        .fullscreen-btn {
+            background: #2196F3;
+        }
+
+        .ad-free-btn {
+            background: #f44336;
+        }
+
+        .footer-nav {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .home-btn { background: #34495e; }
+        .race-btn { background: #e74c3c; }
+        .classroom-btn { background: #4CAF50; }
+        .holiday-btn { background: #9b59b6; }
+        .name-picker-btn { background: #f39c12; }
+
+        .running {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .finished {
+            animation: flash 0.5s infinite;
+        }
+
+        @keyframes flash {
+            0%, 100% { background-color: #f44336; }
+            50% { background-color: #ff7961; }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .timer-display {
+                font-size: 36px;
+            }
+            
+            .timer-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            Online-Stopwatch
+        </div>
+        <div class="header-buttons">
+            <button class="header-btn login-btn">⭐ Log In!</button>
+            <button class="header-btn premium-btn">⭐ Join Premium!</button>
+            <button class="header-btn search-btn">🔍 Search</button>
+            <button class="header-btn lang-btn">🇬🇧 Change Language</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn race-timers">⏱️ Race Timers</button>
+        <button class="nav-btn classroom-timers">🍎 Classroom Timers</button>
+        <button class="nav-btn holiday-timers">🎃 Holiday Timers</button>
+        <button class="nav-btn random-name">🎯 Random Name Pickers</button>
+        <button class="nav-btn random-number">🎲 Random Number Generators</button>
+        <button class="nav-btn sensory-timers">👁️ Sensory Timers</button>
+        <button class="nav-btn clocks">🕐 Clocks</button>
+        <button class="nav-btn exam-timers">📝 Exam Timers</button>
+        <button class="nav-btn chance-games">🎮 Chance Games</button>
+        <button class="nav-btn group-generators">👥 Group Generators</button>
+        <button class="nav-btn presentation-timers">📊 Presentation Timers</button>
+        <button class="nav-btn tally-counters">📊 Tally Counters</button>
+    </div>
+
+    <div class="hero-text">
+        <p>Everybody needs a stopwatch at some point --- and there's never one around!</p>
+        <p>Well... Now there is! Online Stopwatch!</p>
+        <p>A Simple, Fast Online Stopwatch and Online Countdown timer always available when you need it.</p>
+    </div>
+
+    <div class="url-bar">www.online-stopwatch.com</div>
+
+    <div class="main-container">
+        <div class="timer-section">
+            <h2 class="timer-title">Stopwatch</h2>
+            <div class="timer-display" id="stopwatch-display">00:00:00</div>
+            <div class="timer-icon stopwatch-icon" id="stopwatch-icon"></div>
+            <div class="timer-controls">
+                <button class="control-btn start-btn" id="stopwatch-start">Start</button>
+                <button class="control-btn stop-btn" id="stopwatch-stop">Stop</button>
+                <button class="control-btn reset-btn" id="stopwatch-reset">Reset</button>
+            </div>
+        </div>
+
+        <div class="timer-section">
+            <h2 class="timer-title">Countdown</h2>
+            <div class="countdown-inputs">
+                <input type="number" class="time-input" id="hours-input" placeholder="HH" min="0" max="23" value="0">
+                <span>:</span>
+                <input type="number" class="time-input" id="minutes-input" placeholder="MM" min="0" max="59" value="5">
+                <span>:</span>
+                <input type="number" class="time-input" id="seconds-input" placeholder="SS" min="0" max="59" value="0">
+            </div>
+            <div class="timer-display" id="countdown-display">05:00</div>
+            <div class="timer-icon countdown-icon" id="countdown-icon"></div>
+            <div class="timer-controls">
+                <button class="control-btn start-btn" id="countdown-start">Start</button>
+                <button class="control-btn stop-btn" id="countdown-stop">Stop</button>
+                <button class="control-btn reset-btn" id="countdown-reset">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button class="bottom-btn add-page-btn">⭐ Add to My Page!</button>
+        <button class="bottom-btn fullscreen-btn">📺 Go Fullscreen!</button>
+        <button class="bottom-btn ad-free-btn">⚡ Go Ad Free!</button>
+    </div>
+
+    <div class="footer-nav">
+        <button class="footer-btn home-btn">🏠 Home</button>
+        <button class="footer-btn race-btn">⏱️ Race Timers</button>
+        <button class="footer-btn classroom-btn">🍎 Classroom Timers</button>
+        <button class="footer-btn holiday-btn">🎃 Holiday Timers</button>
+        <button class="footer-btn name-picker-btn">🎯 Random Name Pickers</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
