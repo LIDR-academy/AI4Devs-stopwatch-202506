@@ -1,0 +1,33 @@
+/* style.css */
+/* Ajustes personalizados sobre Tailwind para el cronotemporizador */
+
+.switch-btn {
+  @apply flex flex-col items-center px-4 py-2 rounded-xl border-2 border-transparent transition duration-150 hover:bg-blue-100 focus:bg-blue-200 active:bg-blue-200;
+}
+
+.switch-btn.ring-2 {
+  @apply border-2;
+}
+
+.action-btn {
+  @apply text-xl md:text-2xl font-bold px-6 py-3 rounded-2xl shadow-lg text-white transition duration-150 focus:outline-none;
+  min-width: 140px;
+}
+
+#display {
+  min-width: 280px;
+  max-width: 100vw;
+}
+
+@media (max-width: 425px) {
+  .action-btn {
+    min-width: 120px;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  #display {
+    min-width: 210px;
+    font-size: 1.5rem;
+    padding: 1rem 0.5rem;
+  }
+}
