@@ -1,36 +1,122 @@
-# Stopwatch EN
+AI4Devs Stopwatch Project
+This repository contains a simple web-based stopwatch application built with React and styled using Tailwind CSS. This project was developed as part of an AI4Devs certification, focusing on modern front-end development practices.
 
-Use what you’ve learned about prompt engineering to create a stopwatch and countdown.
+Features
+Stopwatch Functionality:
 
-Reference: https://www.online-stopwatch.com/ (see res/stopwatch.png for design reference)
+Start, Pause, and Reset controls.
 
-Do it using the seed index.html + script.js
+Lap recording for tracking intermediate times.
 
-Use a chatbot, like ChatGPT or Gemini, not a code assistant in an IDE like Copilot.
+Precise Time Display: Shows time in HH:MM:SS.ms format.
 
-Tip: if it allows image analysis, you can upload it to easily obtain a design similar to the reference.
+Responsive Design: Adapts to different screen sizes (mobile, tablet, desktop) using Tailwind CSS.
 
-To submit the exercise, make a pull request that includes not only the generated code but also, crucially, the prompt used in the file prompts.md. Also, add the prompt in the comment.
+Modern React Hooks: Utilizes useState, useEffect, useRef, and useCallback for efficient state management and performance.
 
-To submit, make a pull request that includes a folder copied from the template, with the name stopwatch-initials (e.g., stopwatch-ARM). It should include not only the generated code but also, crucially, the prompt used and the chatbot used in prompts.md. If you’ve used more than one prompt until reaching a suitable solution, add them all in order. Also, include the final prompt in the pull request comment.
+Clean and Intuitive UI: Features a dark theme with vibrant indigo accents for a polished look.
 
-Good luck!
+Project Structure
+The project follows a standard React application structure:
 
-# Stopwatch ES
+AI4Devs-stopwatch-202506/
+├── README.md             (This file - project overview and instructions)
+├── src/
+│   ├── App.js            (Main React component containing Stopwatch logic)
+│   └── index.js          (Entry point for the React app)
+├── public/
+│   ├── index.html        (Standard HTML entry point for the web application)
+└── package.json          (Node.js project configuration and dependencies)
 
-Utiliza lo aprendido sobre prompt engineering para crear un **cronómetro y cuenta atrás**. 
+Setup and Running
+To get this project up and running on your local machine, follow these steps:
 
-Referencia: [https://www.online-stopwatch.com/](https://www.online-stopwatch.com/) (ver res/stopwatch.png, referencia de diseño)
+Prerequisites
+Node.js (LTS version recommended)
 
-Hazlo apoyado en el seed `index.html` + `script.js`
+npm (Node Package Manager, comes with Node.js) or Yarn
 
-Utiliza un chatbot, como ChatGPT o Gemini, no un asistente de código en IDE como Copilot.
+Installation
+Clone the repository:
+If you're starting with an empty repository or want to clone this specific structure, you'd typically start by creating the project. If you already have a create-react-app project, you can skip this step and just replace the relevant files.
 
-Tip: si permite el análisis de imágenes, puedes subirla para obtener fácilmente un diseño similar al de referencia.
+# If starting a new project (conceptual, as this project structure is specific)
+npx create-react-app ai4devs-stopwatch-202506
+cd ai4devs-stopwatch-202506
 
-Para entregar el ejercicio, haz un pull request que incluya no solo el código generado, sino también, fundamental, el prompt utilizado en el fichero prompts.md. Añade además el prompt en el comentario.
+Install Dependencies:
+Navigate to the root of your project directory (AI4Devs-stopwatch-202506/) and install the necessary packages.
 
+npm install
+# or if using yarn
+# yarn install
 
-Para entregar, haz una pull request que incluya una carpeta copiada de template, con el nombre `stopwatch-iniciales` (ejemplo `stopwatch-ARM`). Debe incluir no solo el código generado, sino también, fundamental, **el prompt utilizado y el chatbot utilizado** en `prompts.md`. Si has usado más de un prompt hasta llegar a una solución adecuada, añade todos en orden. Añade además el prompt final en el comentario del pull request.
+Install and Configure Tailwind CSS:
 
-¡Éxitos!
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+Then, configure your tailwind.config.js to scan your React files for Tailwind classes. Open tailwind.config.js and ensure it looks like this:
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+Finally, add the Tailwind directives to your src/index.css (or create it if it doesn't exist) if you're not using the CDN directly in index.html:
+
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Note: For simplicity and rapid deployment in the interactive environment, a direct CDN link for Tailwind is used in public/index.html. In a production setup, installing and building Tailwind locally is the standard practice.
+
+Copy Project Files
+Now, copy the content into the respective files:
+
+src/App.js: Create or open src/App.js and paste the code provided in the src-app-js section below.
+
+public/index.html: Create or open public/index.html and paste the code provided in the public-index-html section below.
+
+src/index.js: Ensure your src/index.js file (the entry point for React) renders the App component. It should look something like this:
+
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'; // If you're using a local index.css for Tailwind directives
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+Running the Application
+Once you've set up the files and installed dependencies, you can start the development server:
+
+npm start
+# or
+# yarn start
+
+This command will typically open the application in your default web browser at http://localhost:3000. The application will automatically reload if you make changes to the source files.
+
+Best Practices Followed
+Component-Based Architecture: Modular design using React components.
+
+Efficient State Management: Leveraging React hooks (useState, useEffect) for managing application state.
+
+Performance Optimization: Use of useRef for interval management and useCallback for function memoization.
+
+Responsive Design: Built with Tailwind CSS for a consistent experience across devices.
+
+Clean Code: Adherence to readability and maintainability standards with comments and clear naming conventions.

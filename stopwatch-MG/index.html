@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch & Countdown Timer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the app */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Basic styling for the main container */
+        .app-container {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem; /* Increased padding */
+            max-width: 900px; /* Max width for larger screens */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem; /* Increased gap between sections */
+        }
+
+        /* Styling for the time displays */
+        .time-display {
+            font-family: monospace; /* Monospace for consistent digit width */
+            font-size: 4rem; /* Larger font size for main display */
+            font-weight: 700; /* Bold font */
+            color: #1f2937; /* Dark gray text */
+            text-align: center;
+            letter-spacing: 0.1rem; /* Slight letter spacing */
+        }
+
+        /* Styling for buttons */
+        .control-button {
+            padding: 1rem 2rem;
+            border-radius: 0.75rem; /* Rounded corners for buttons */
+            font-weight: 600; /* Semi-bold text */
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            /* Gradient background for buttons */
+            background-image: linear-gradient(to right, #4ade80, #22c55e); /* Green gradient */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .control-button:hover {
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 5px -1px rgba(0, 0, 0, 0.08);
+            background-image: linear-gradient(to right, #22c55e, #16a34a); /* Darker green on hover */
+        }
+
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Specific button colors */
+        .button-start {
+            background-image: linear-gradient(to right, #22c55e, #10b981); /* Green */
+        }
+        .button-start:hover {
+            background-image: linear-gradient(to right, #10b981, #059669);
+        }
+
+        .button-stop {
+            background-image: linear-gradient(to right, #ef4444, #dc2626); /* Red */
+        }
+        .button-stop:hover {
+            background-image: linear-gradient(to right, #dc2626, #b91c1c);
+        }
+
+        .button-reset {
+            background-image: linear-gradient(to right, #60a5fa, #3b82f6); /* Blue */
+        }
+        .button-reset:hover {
+            background-image: linear-gradient(to right, #3b82f6, #2563eb);
+        }
+
+        .button-lap {
+            background-image: linear-gradient(to right, #facc15, #eab308); /* Yellow/Amber */
+            color: #333; /* Darker text for contrast */
+        }
+        .button-lap:hover {
+            background-image: linear-gradient(to right, #eab308, #d97706);
+        }
+
+        .button-set {
+            background-image: linear-gradient(to right, #a78bfa, #8b5cf6); /* Purple */
+        }
+        .button-set:hover {
+            background-image: linear-gradient(to right, #8b5cf6, #7c3aed);
+        }
+
+        /* Countdown input styling */
+        .countdown-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db; /* Light gray border */
+            font-size: 1.125rem;
+            text-align: center;
+            max-width: 200px; /* Max width for the input */
+            margin: 0 auto; /* Center the input */
+        }
+
+        /* Lap list styling */
+        .lap-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            background-color: #f9fafb;
+        }
+
+        .lap-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        .lap-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+            .time-display {
+                font-size: 3rem; /* Smaller font for mobile */
+            }
+            .control-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .button-group {
+                flex-direction: column; /* Stack buttons on small screens */
+                gap: 0.75rem; /* Adjust gap */
+            }
+            .countdown-input {
+                max-width: 100%; /* Full width input on small screens */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-5">
+    <div class="app-container">
+        <!-- Toggle Button -->
+        <div class="flex justify-center mb-6">
+            <button id="toggle-view-btn" class="control-button button-set">Show Countdown</button>
+        </div>
+
+        <!-- Stopwatch Section -->
+        <section id="stopwatch-section" class="stopwatch-section flex flex-col items-center gap-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Stopwatch</h2>
+            <div id="stopwatch-display" class="time-display">00:00:00.000</div>
+            <div class="button-group flex flex-wrap justify-center gap-4">
+                <button id="stopwatch-start" class="control-button button-start">Start</button>
+                <button id="stopwatch-stop" class="control-button button-stop" disabled>Stop</button>
+                <button id="stopwatch-reset" class="control-button button-reset" disabled>Reset</button>
+                <button id="stopwatch-lap" class="control-button button-lap" disabled>Lap</button>
+            </div>
+            <ul id="lap-list" class="lap-list w-full max-w-md"></ul>
+        </section>
+
+        <!-- Countdown Section -->
+        <section id="countdown-section" class="countdown-section flex flex-col items-center gap-6 hidden">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Countdown Timer</h2>
+            <div id="countdown-display" class="time-display">00:00:00</div>
+            <div class="flex flex-wrap justify-center gap-4 mb-4">
+                <input type="text" id="countdown-input" placeholder="HH:MM:SS" class="countdown-input text-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="countdown-set" class="control-button button-set">Set Time</button>
+            </div>
+            <div class="button-group flex flex-wrap justify-center gap-4">
+                <button id="countdown-start" class="control-button button-start" disabled>Start</button>
+                <button id="countdown-pause" class="control-button button-stop" disabled>Pause</button>
+                <button id="countdown-reset" class="control-button button-reset" disabled>Reset</button>
+            </div>
+             <!-- Custom Alert Message Box -->
+            <div id="alert-message-box" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="bg-white rounded-lg p-6 shadow-xl text-center max-w-sm w-full">
+                    <p id="alert-message-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
+                    <button id="alert-message-ok" class="control-button button-reset">OK</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
