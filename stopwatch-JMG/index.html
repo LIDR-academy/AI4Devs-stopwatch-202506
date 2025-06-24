@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cronómetro y Temporizador</title>
+  <!-- Tailwind y DaisyUI CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.3/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-blue-100 via-white to-blue-50 flex flex-col items-center py-10">
+  <div class="w-full max-w-xl mx-auto">
+    <!-- Switch Tabs -->
+    <div role="tablist" class="tabs tabs-boxed bg-white mb-8 shadow-md rounded-xl overflow-hidden flex justify-center">
+      <button id="tab-cronometro" role="tab"
+        class="tab tab-lg flex gap-2 items-center font-bold text-xl text-blue-700 data-[active=true]:tab-active"
+        data-active="true">
+        <!-- SVG Cronómetro -->
+        <svg width="32" height="32" fill="none" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20" stroke="#2563eb" stroke-width="4"/>
+          <rect x="21" y="10" width="6" height="14" rx="3" fill="#2563eb">
+            <animate attributeName="height" values="14;4;14" dur="1s" repeatCount="indefinite"/>
+          </rect>
+          <circle cx="24" cy="24" r="3" fill="#2563eb"/>
+        </svg>
+        Cronómetro
+      </button>
+      <button id="tab-temporizador" role="tab"
+        class="tab tab-lg flex gap-2 items-center font-bold text-xl text-orange-700"
+        data-active="false">
+        <!-- SVG Temporizador -->
+        <svg width="32" height="32" fill="none" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20" stroke="#f59e42" stroke-width="4"/>
+          <rect x="23" y="8" width="2" height="12" fill="#f59e42">
+            <animate attributeName="height" values="12;4;12" dur="1s" repeatCount="indefinite"/>
+          </rect>
+          <circle cx="24" cy="24" r="3" fill="#f59e42"/>
+        </svg>
+        Temporizador
+      </button>
+    </div>
+
+    <!-- Display principal del tiempo -->
+    <div class="w-full bg-blue-100/80 rounded-3xl border-4 border-gray-500 shadow-lg mb-8 flex flex-col items-center justify-center py-12 px-2">
+      <div id="time-display" class="font-mono text-6xl md:text-8xl font-black text-black flex items-end justify-center select-none transition-all duration-200">
+        00:08:00<span class="text-2xl md:text-4xl align-top ml-2">000</span>
+      </div>
+      <!-- Config temporizador -->
+      <div id="set-timer-section" class="mt-7 hidden w-full flex-col items-center">
+        <label class="block text-lg font-semibold mb-2 text-gray-800 text-center">Configura el temporizador</label>
+        <div class="flex gap-2 justify-center">
+          <input id="input-minutes" type="number" min="0" max="99" placeholder="Min"
+            class="w-20 p-2 rounded-lg border border-gray-400 text-center text-lg focus:ring-2 focus:ring-blue-400 outline-none" />
+          <input id="input-seconds" type="number" min="0" max="59" placeholder="Seg"
+            class="w-20 p-2 rounded-lg border border-gray-400 text-center text-lg focus:ring-2 focus:ring-blue-400 outline-none" />
+        </div>
+        <button id="set-timer-btn" class="mt-4 px-8 py-2 rounded-xl bg-blue-500 text-white text-lg font-semibold hover:bg-blue-600 shadow transition">Establecer</button>
+      </div>
+    </div>
+
+    <!-- Botones de control -->
+    <div class="w-full flex flex-wrap gap-4 justify-center">
+      <button id="start-btn"   class="btn btn-lg text-2xl font-bold rounded-2xl shadow-xl bg-green-500 hover:bg-green-600 text-white transition">Iniciar</button>
+      <button id="pause-btn"   class="btn btn-lg text-2xl font-bold rounded-2xl shadow-xl bg-yellow-500 hover:bg-yellow-600 text-white transition hidden">Pausar</button>
+      <button id="resume-btn"  class="btn btn-lg text-2xl font-bold rounded-2xl shadow-xl bg-blue-500 hover:bg-blue-600 text-white transition hidden">Reanudar</button>
+      <button id="stop-btn"    class="btn btn-lg text-2xl font-bold rounded-2xl shadow-xl bg-red-500 hover:bg-red-600 text-white transition hidden">Detener</button>
+      <button id="clear-btn"   class="btn btn-lg text-2xl font-bold rounded-2xl shadow-xl bg-red-700 hover:bg-red-800 text-white transition">Poner a cero</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
