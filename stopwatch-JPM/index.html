@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronómetro y Timer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            max-width: 500px;
+            overflow: hidden;
+        }
+        
+        .nav-tabs {
+            border-bottom: none;
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 20px 30px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: #fff;
+            color: #495057;
+            border-bottom: 3px solid #007bff;
+        }
+        
+        .time-display {
+            font-size: 4rem;
+            font-weight: 300;
+            color: #2c3e50;
+            text-align: center;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .button-with-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .button-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-control {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-start {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+        
+        .btn-pause {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+            color: white;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(45deg, #dc3545, #e83e8c);
+            color: white;
+        }
+        
+        .btn-lap {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            color: white;
+        }
+        
+        .btn-control:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .laps-container {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .lap-item {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid #007bff;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .preset-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn-preset {
+            background: linear-gradient(45deg, #17a2b8, #6610f2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-preset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .time-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .time-input {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 80px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .time-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .time-display {
+                font-size: 2.5rem;
+            }
+            
+            .btn-control {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+            
+            .main-container {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link active w-100" id="stopwatch-tab" data-bs-toggle="tab" data-bs-target="#stopwatch" type="button" role="tab">
+                        <i class="bi bi-stopwatch"></i> Cronómetro
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="timer-tab" data-bs-toggle="tab" data-bs-target="#timer" type="button" role="tab">
+                        <i class="bi bi-alarm"></i> Timer
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content p-4" id="myTabContent">
+                <!-- Cronómetro Tab -->
+                <div class="tab-pane fade show active" id="stopwatch" role="tabpanel">
+                    <div class="time-display" id="stopwatch-display">00:00.00</div>
+                    <div class="control-buttons">
+                        <div class="button-with-label">
+                            <button class="btn btn-control btn-start" id="stopwatch-start">
+                                <i class="bi bi-play-fill" id="stopwatch-start-icon"></i>
+                            </button>
+                            <div class="button-label" id="start-label">Iniciar</div>
+                        </div>
+                        <div class="button-with-label">
+                            <button class="btn btn-control btn-lap" id="stopwatch-lap" disabled>
+                                <i class="bi bi-flag"></i>
+                            </button>
+                            <div class="button-label">Vuelta</div>
+                        </div>
+                        <div class="button-with-label">
+                            <button class="btn btn-control btn-reset" id="stopwatch-reset">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                            <div class="button-label">Reiniciar</div>
+                        </div>
+                    </div>
+                    <div class="laps-container" id="laps-container"></div>
+                </div>
+                
+                <!-- Timer Tab -->
+                <div class="tab-pane fade" id="timer" role="tabpanel">
+                    <!-- Preset Buttons -->
+                    <div class="preset-buttons">
+                        <button class="btn btn-preset" data-minutes="1">1 min</button>
+                        <button class="btn btn-preset" data-minutes="2">2 min</button>
+                        <button class="btn btn-preset" data-minutes="3">3 min</button>
+                        <button class="btn btn-preset" data-minutes="4">4 min</button>
+                    </div>
+                    
+                    <!-- Custom Time Selector -->
+                    <div class="time-selector">
+                        <div class="text-center">
+                            <input type="number" class="form-control time-input" id="timer-hours" min="0" max="23" value="0">
+                            <div class="time-label">Horas</div>
+                        </div>
+                        <div class="text-center">
+                            <input type="number" class="form-control time-input" id="timer-minutes" min="0" max="59" value="0">
+                            <div class="time-label">Minutos</div>
+                        </div>
+                        <div class="text-center">
+                            <input type="number" class="form-control time-input" id="timer-seconds" min="0" max="59" value="0">
+                            <div class="time-label">Segundos</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-display" id="timer-display">00:00:00</div>
+                    <div class="control-buttons">
+                        <button class="btn btn-control btn-start" id="timer-start">
+                            <i class="bi bi-play-fill" id="timer-start-icon"></i>
+                        </button>
+                        <button class="btn btn-control btn-reset" id="timer-cancel">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
