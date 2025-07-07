@@ -1,13 +1,94 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timer and Countdown</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<h1>Timer and Countdown</h1>
-<script src="script.js"></script>
-</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cronómetro y Cuenta Atrás</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #f5f5f5;
+      }
+      #display {
+        background: #e0e7ff;
+        border: 4px solid #333;
+        border-radius: 15px;
+        padding: 20px 40px;
+        font-size: 5em;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .button-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        border-radius: 10px;
+        padding: 20px 40px;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+      }
+      .start {
+        background: #00c853;
+      }
+      .start:hover {
+        background: #00b248;
+      }
+      .clear {
+        background: #d50000;
+      }
+      .clear:hover {
+        background: #b71c1c;
+      }
+      .pause {
+        background: #ff9800;
+      }
+      .pause:hover {
+        background: #fb8c00;
+      }
+      input {
+        padding: 10px;
+        font-size: 1.2em;
+        width: 150px;
+        margin-bottom: 20px;
+      }
+      #error {
+        color: red;
+        min-height: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="display">00:00:00</div>
+    <input
+      type="text"
+      id="countdownInput"
+      placeholder="Segundos (Cuenta atrás)"
+    />
+    <div id="error"></div>
+    <div class="button-group">
+      <button class="start" id="startBtn">Start</button>
+      <button class="pause" id="pauseBtn">Pause</button>
+      <button class="clear" id="resetBtn">Clear</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
