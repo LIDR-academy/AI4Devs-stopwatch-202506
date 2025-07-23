@@ -1,0 +1,107 @@
+/* styles/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111;
+  --card-bg: #e6ecff;
+  --border-color: #333;
+}
+
+body.dark {
+  --bg-color: #111;
+  --text-color: #eee;
+  --card-bg: #1e1e2e;
+  --border-color: #eee;
+}
+
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.timer-card {
+  background: var(--bg-color);
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.display {
+  font-size: 6rem;
+  background: var(--card-bg);
+  border: 5px solid var(--border-color);
+  border-radius: 40px;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  display: inline-block;
+  color: black;
+  position: relative;
+}
+
+.display::after {
+  content: '000';
+  font-size: 2rem;
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  opacity: 0.8;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.controls button {
+  font-family: inherit;
+  font-size: 2rem;
+  padding: 1rem 2.5rem;
+  border: 4px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  color: black;
+}
+
+#start-btn {
+  background-color: limegreen;
+}
+
+#reset-btn {
+  background-color: red;
+  color: white;
+}
+
+#pause-btn,
+#resume-btn,
+#lap-btn,
+#mode-toggle,
+#theme-toggle {
+  display: none; /* ocultos para simplificar UI básica */
+}
+
+.input-controls,
+.laps {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .display {
+    font-size: 4rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .controls button {
+    font-size: 1.5rem;
+    padding: 0.75rem 2rem;
+  }
+}

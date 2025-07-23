@@ -1,36 +1,48 @@
-# Stopwatch EN
+# Stopwatch & Countdown Timer Web App
 
-Use what you’ve learned about prompt engineering to create a stopwatch and countdown.
+Aplicación web que permite seleccionar entre cronómetro y cuenta regresiva, con una interfaz visual inspirada en el diseño clásico de online-stopwatch.com.
 
-Reference: https://www.online-stopwatch.com/ (see res/stopwatch.png for design reference)
+## Características
 
-Do it using the seed index.html + script.js
+### 🟢 Stopwatch
+- Iniciar, Pausar, Reanudar, Reiniciar
+- Registro de vueltas
+- Precisión a milisegundos
 
-Use a chatbot, like ChatGPT or Gemini, not a code assistant in an IDE like Copilot.
+### 🔴 Countdown
+- Entrada de horas, minutos y segundos
+- Alarma sonora y parpadeo visual al llegar a cero
 
-Tip: if it allows image analysis, you can upload it to easily obtain a design similar to the reference.
+### Comunes
+- Pantalla de selección de modo al iniciar
+- Botón de regreso para cambiar de modo
+- Accesibilidad por teclado: `Enter` para iniciar/detener, `Escape` para reiniciar
+- Diseño responsivo para escritorio y móvil
+- Interfaz clara, sin librerías externas
 
-To submit the exercise, make a pull request that includes not only the generated code but also, crucially, the prompt used in the file prompts.md. Also, add the prompt in the comment.
+## Cómo usar
 
-To submit, make a pull request that includes a folder copied from the template, with the name stopwatch-initials (e.g., stopwatch-ARM). It should include not only the generated code but also, crucially, the prompt used and the chatbot used in prompts.md. If you’ve used more than one prompt until reaching a suitable solution, add them all in order. Also, include the final prompt in the pull request comment.
+1. Clona o descarga este repositorio.
+2. Asegúrate de tener estos archivos en la misma carpeta:
+   - `index.html`
+   - `style.css`
+   - `script.js`
+   - (opcional) `alarm.mp3` para la alarma
+3. Abre `index.html` en tu navegador.
 
-Good luck!
+## Estructura
 
-# Stopwatch ES
+```
+project-root/
+├── index.html
+├── style.css
+├── script.js
+├── alarm.mp3 (opcional)
+└── README.md
+```
 
-Utiliza lo aprendido sobre prompt engineering para crear un **cronómetro y cuenta atrás**. 
+No requiere instalación ni herramientas de construcción. Puedes usarlo directamente desde el navegador.
 
-Referencia: [https://www.online-stopwatch.com/](https://www.online-stopwatch.com/) (ver res/stopwatch.png, referencia de diseño)
+---
 
-Hazlo apoyado en el seed `index.html` + `script.js`
-
-Utiliza un chatbot, como ChatGPT o Gemini, no un asistente de código en IDE como Copilot.
-
-Tip: si permite el análisis de imágenes, puedes subirla para obtener fácilmente un diseño similar al de referencia.
-
-Para entregar el ejercicio, haz un pull request que incluya no solo el código generado, sino también, fundamental, el prompt utilizado en el fichero prompts.md. Añade además el prompt en el comentario.
-
-
-Para entregar, haz una pull request que incluya una carpeta copiada de template, con el nombre `stopwatch-iniciales` (ejemplo `stopwatch-ARM`). Debe incluir no solo el código generado, sino también, fundamental, **el prompt utilizado y el chatbot utilizado** en `prompts.md`. Si has usado más de un prompt hasta llegar a una solución adecuada, añade todos en orden. Añade además el prompt final en el comentario del pull request.
-
-¡Éxitos!
+© 2025
