@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch & Countdown Timer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="app-header">
+        <h1>www.online-stopwatch.com</h1>
+      </header>
+
+      <section class="mode-panel">
+        <div id="stopwatchMode" class="mode-card">
+          <div class="mode-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="limegreen">
+              <path stroke="#222" stroke-width="4" d="M50 10 L80 50 H60 V90 H40 V50 H20 Z" />
+            </svg>
+          </div>
+          <span>Stopwatch</span>
+        </div>
+        <div id="countdownMode" class="mode-card">
+          <div class="mode-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="red">
+              <path stroke="#222" stroke-width="4" d="M50 90 L20 50 H40 V10 H60 V50 H80 Z" />
+            </svg>
+          </div>
+          <span>Countdown</span>
+        </div>
+      </section>
+
+      <section id="mainApp" class="hidden">
+        <section id="timerDisplay" class="timer-display">00:00:00.000</section>
+
+        <section id="countdownInputs" class="countdown-inputs hidden">
+          <input type="number" id="hours" placeholder="HH" min="0" max="99" />
+          <input type="number" id="minutes" placeholder="MM" min="0" max="59" />
+          <input type="number" id="seconds" placeholder="SS" min="0" max="59" />
+        </section>
+
+        <section class="controls">
+          <button id="startBtn">Start</button>
+          <button id="pauseBtn" class="hidden">Pause</button>
+          <button id="resumeBtn" class="hidden">Resume</button>
+          <button id="resetBtn">Reset</button>
+        </section>
+
+        <section id="lapsSection" class="laps-section">
+          <h2> </h2>
+          <ul id="lapsList" class="laps-list"></ul>
+        </section>
+      </section>
+
+      <audio id="alarmSound" src="mixkit-classic-alarm-995.wav" preload="auto"></audio>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
