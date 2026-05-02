@@ -28,11 +28,13 @@ let swStartTime;
 const swDisplay = document.getElementById('stopwatch-display');
 
 function formatSwTime(ms) {
-    let date = new Date(ms);
-    let m = String(date.getUTCMinutes()).padStart(2, '0');
-    let s = String(date.getUTCSeconds()).padStart(2, '0');
-    let msStr = String(date.getUTCMilliseconds()).padStart(3, '0').slice(0, 2);
-    return `${m}:${s}:${msStr}`;
+    // ¡Corregido para evitar el bug de los 60 minutos!
+    let totalSeconds = Math.floor(ms / 1000);
+    let m = Math.floor(totalSeconds / 60);
+    let s = totalSeconds % 60;
+    let cs = Math.floor((ms % 1000) / 10);
+    let msStr = String(cs).padStart(2, '0');
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${msStr}`;
 }
 
 document.getElementById('sw-start').addEventListener('click', () => {
@@ -68,6 +70,7 @@ const cdInputs = document.getElementById('cd-inputs');
 const cdDisplay = document.getElementById('countdown-display');
 const cdMin = document.getElementById('cd-min');
 const cdSec = document.getElementById('cd-sec');
+const cdFinishedMsg = document.getElementById('cd-finished'); // Nuevo elemento banner
 
 function updateCdDisplay(seconds) {
     let m = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -77,7 +80,6 @@ function updateCdDisplay(seconds) {
 
 document.getElementById('cd-start').addEventListener('click', () => {
     if (!cdRunning) {
-        // Solo tomar valores de los inputs si recién empezamos
         if (cdTime === 0) {
             let m = parseInt(cdMin.value) || 0;
             let s = parseInt(cdSec.value) || 0;
@@ -86,9 +88,9 @@ document.getElementById('cd-start').addEventListener('click', () => {
         
         if (cdTime > 0) {
             cdRunning = true;
-            // Ocultar inputs y mostrar los números fijos
             cdInputs.style.display = 'none';
             cdDisplay.style.display = 'block';
+            cdFinishedMsg.style.display = 'none'; // Asegurar que el banner esté oculto al iniciar
             updateCdDisplay(cdTime);
 
             cdInterval = setInterval(() => {
@@ -99,7 +101,10 @@ document.getElementById('cd-start').addEventListener('click', () => {
                 if (cdTime <= 0) {
                     clearInterval(cdInterval);
                     cdRunning = false;
-                    setTimeout(() => alert("¡El tiempo ha terminado!"), 50); // Pequeño delay para que pinte el 00:00
+                    
+                    // Mostrar el banner en lugar del alert bloqueante
+                    cdFinishedMsg.style.display = 'block';
+                    
                     cdInputs.style.display = 'flex';
                     cdDisplay.style.display = 'none';
                 }
@@ -120,7 +125,7 @@ document.getElementById('cd-reset').addEventListener('click', () => {
     cdMin.value = '';
     cdSec.value = '';
     
-    // Volver a mostrar los inputs para ingresar un nuevo tiempo
     cdInputs.style.display = 'flex';
     cdDisplay.style.display = 'none';
+    cdFinishedMsg.style.display = 'none'; // Ocultar el banner al resetear
 });
