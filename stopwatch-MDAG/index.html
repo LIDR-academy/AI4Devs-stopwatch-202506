@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer and Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Timer and Countdown</h1>
+        
+        <!-- Pestañas para cambiar de modo -->
+        <div class="tabs">
+            <button id="tab-stopwatch" class="active">Cronómetro</button>
+            <button id="tab-countdown">Cuenta Atrás</button>
+        </div>
+
+        <!-- Sección del Cronómetro -->
+        <div id="stopwatch-section" class="section active">
+            <div class="display" id="stopwatch-display">00:00:00</div>
+            <div class="controls">
+                <button id="sw-start" class="btn-start">Start</button>
+                <button id="sw-stop" class="btn-stop">Stop</button>
+                <button id="sw-reset" class="btn-reset">Reset</button>
+            </div>
+        </div>
+
+        <!-- Sección de la Cuenta Atrás -->
+        <div id="countdown-section" class="section">
+            <div class="inputs" id="cd-inputs">
+                <label for="cd-min" class="visually-hidden">Minutos</label>
+                <input type="number" id="cd-min" placeholder="Min" min="0" max="99">
+                <span aria-hidden="true">:</span>
+                <label for="cd-sec" class="visually-hidden">Segundos</label>
+                <input type="number" id="cd-sec" placeholder="Seg" min="0" max="59">
+            </div>
+            <div class="display" id="countdown-display" style="display:none;">00:00</div>
+            
+            <!-- Nuevo banner oculto en lugar del alert -->
+            <div id="cd-finished" class="finished-msg" style="display:none;">¡El tiempo ha terminado!</div>
+
+            <div class="controls">
+                <button id="cd-start" class="btn-start">Start</button>
+                <button id="cd-stop" class="btn-stop">Stop</button>
+                <button id="cd-reset" class="btn-reset">Reset</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
