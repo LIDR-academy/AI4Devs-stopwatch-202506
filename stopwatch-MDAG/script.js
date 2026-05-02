@@ -18,7 +18,6 @@ tabCd.addEventListener('click', () => {
     secSw.classList.remove('active');
 });
 
-
 // --- LÓGICA DEL CRONÓMETRO ---
 let swInterval;
 let swTime = 0;
@@ -28,7 +27,6 @@ let swStartTime;
 const swDisplay = document.getElementById('stopwatch-display');
 
 function formatSwTime(ms) {
-    // ¡Corregido para evitar el bug de los 60 minutos!
     let totalSeconds = Math.floor(ms / 1000);
     let m = Math.floor(totalSeconds / 60);
     let s = totalSeconds % 60;
@@ -60,17 +58,17 @@ document.getElementById('sw-reset').addEventListener('click', () => {
     swDisplay.textContent = "00:00:00";
 });
 
-
 // --- LÓGICA DE LA CUENTA ATRÁS ---
 let cdInterval;
-let cdTime = 0; // Tiempo en segundos
+let cdTime = 0;
 let cdRunning = false;
+let cdEndTime = 0;
 
 const cdInputs = document.getElementById('cd-inputs');
 const cdDisplay = document.getElementById('countdown-display');
 const cdMin = document.getElementById('cd-min');
 const cdSec = document.getElementById('cd-sec');
-const cdFinishedMsg = document.getElementById('cd-finished'); // Nuevo elemento banner
+const cdFinishedMsg = document.getElementById('cd-finished');
 
 function updateCdDisplay(seconds) {
     let m = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -81,34 +79,36 @@ function updateCdDisplay(seconds) {
 document.getElementById('cd-start').addEventListener('click', () => {
     if (!cdRunning) {
         if (cdTime === 0) {
-            let m = parseInt(cdMin.value) || 0;
-            let s = parseInt(cdSec.value) || 0;
+            let m = Math.max(0, parseInt(cdMin.value) || 0);
+            let s = Math.min(59, Math.max(0, parseInt(cdSec.value) || 0));
             cdTime = (m * 60) + s;
+            
+            cdMin.value = m;
+            cdSec.value = s;
         }
         
         if (cdTime > 0) {
             cdRunning = true;
+            cdEndTime = Date.now() + cdTime * 1000;
+            
             cdInputs.style.display = 'none';
             cdDisplay.style.display = 'block';
-            cdFinishedMsg.style.display = 'none'; // Asegurar que el banner esté oculto al iniciar
+            cdFinishedMsg.style.display = 'none';
             updateCdDisplay(cdTime);
 
             cdInterval = setInterval(() => {
-                cdTime--;
-                updateCdDisplay(cdTime);
+                const remaining = Math.max(0, Math.round((cdEndTime - Date.now()) / 1000));
+                cdTime = remaining;
+                updateCdDisplay(remaining);
                 
-                // Cuando llega a cero
-                if (cdTime <= 0) {
+                if (remaining <= 0) {
                     clearInterval(cdInterval);
                     cdRunning = false;
-                    
-                    // Mostrar el banner en lugar del alert bloqueante
                     cdFinishedMsg.style.display = 'block';
-                    
                     cdInputs.style.display = 'flex';
                     cdDisplay.style.display = 'none';
                 }
-            }, 1000);
+            }, 500);
         }
     }
 });
@@ -127,5 +127,5 @@ document.getElementById('cd-reset').addEventListener('click', () => {
     
     cdInputs.style.display = 'flex';
     cdDisplay.style.display = 'none';
-    cdFinishedMsg.style.display = 'none'; // Ocultar el banner al resetear
+    cdFinishedMsg.style.display = 'none';
 });
